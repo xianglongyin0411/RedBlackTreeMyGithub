@@ -1,0 +1,29 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit-tests:
+    name: Run Unit Tests
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0' # 根据您的项目使用的 .NET 版本调整
+
+      - name: Restore dependencies
+        run: dotnet restore UnitTest/UnitTest.csproj
+
+      - name: Run Unit Tests
+        run: dotnet test UnitTest/UnitTest.csproj --no-build --verbosity normal
