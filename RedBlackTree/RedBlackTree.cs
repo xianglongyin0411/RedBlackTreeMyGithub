@@ -413,6 +413,7 @@ public class RedBlackTree<T> where T : IComparable<T>
                     root = x;
                 }
             }
+            
             DeleteFixup(x);
 
             if (x != null && x.Key.Equals(default(T)))
