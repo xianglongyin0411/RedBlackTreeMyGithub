@@ -27,9 +27,10 @@ jobs:
 
       - name: Run Unit Tests
         run: dotnet test UnitTest/UnitTest.csproj --logger "trx;LogFileName=test-results.trx" --results-directory UnitTest/TestOutput
+
       - name: Upload test results
         if: success() || failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: test-results
           path: UnitTest/TestOutput/test-results.trx  # 直接指定固定路径的文件
