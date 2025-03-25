@@ -37,21 +37,21 @@ jobs:
           reporter: dotnet-trx
 
 
-  # performance-tests:
-  #   name: Run Performance Tests
-  #   runs-on: windows-latest
+  performance-tests:
+    name: Run Performance Tests
+    runs-on: windows-latest
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     - name: Setup .NET
-  #       uses: actions/setup-dotnet@v3
-  #       with:
-  #         dotnet-version: '9.0'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0'
 
-  #     - name: Restors dependencies
-  #       run: dotnet restore PerformanceTest/PerformanceTest.csproj
+      - name: Restors dependencies
+        run: dotnet restore PerformanceTest/PerformanceTest.csproj
         
-  #     - name: Run Performance Tests
-  #       run: dotnet run --project PerformanceTest/PerformanceTest.csproj --configuration Release
+      - name: Run Performance Tests
+        run: dotnet run --project PerformanceTest/PerformanceTest.csproj --configuration Release
