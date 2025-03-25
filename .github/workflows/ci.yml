@@ -20,13 +20,39 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '9.0' # 根据您的项目使用的 .NET 版本调整
+          dotnet-version: '9.0' 
 
       - name: Restore dependencies
         run: dotnet restore UnitTest/UnitTest.csproj
 
       - name: Run Unit Tests
-        run: dotnet test UnitTest/UnitTest.csproj --no-build --verbosity normal
+        run: dotnet test UnitTest/UnitTest.csproj --logger "trx;LogFileName=test-results.trx" --results-directory UnitTest/TestOutput
+      - name: Upload test results
+        if: success() || failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: UnitTest/TestOutput/test-results.trx  # 直接指定固定路径的文件
+
+  test-report:
+    name: Generate Test Report
+    needs: unit-tests
+    runs-on: self-hosted
+    steps:
+      - name: Download test results artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: test-results
+          path: test-results  # 解压到当前目录的 test-results 文件夹
+
+      - name: Generate test report
+        uses: dorny/test-reporter@v2
+        with:
+          name: Unit Test Report
+          path: test-results/test-results.trx
+          reporter: dotnet-trx
+
+
   performance-tests:
     name: Run Performance Tests
     runs-on: windows-latest

@@ -1,5 +1,7 @@
 using System;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Running;
 
 namespace PerformanceTest
@@ -58,9 +60,14 @@ namespace PerformanceTest
         {
             // 运行 RedBlackTree 的性能测试
             BenchmarkRunner.Run<RedBlackTreePerformanceTests>();
+        }
+    }
 
-            // 运行 SortedSet 的性能测试
-            BenchmarkRunner.Run<SortedSetPerformanceTests>();
+    public class ConfigWithMedian : ManualConfig
+    {
+        public ConfigWithMedian()
+        {
+            AddColumn(StatisticColumn.Median); // 添加 Median 列
         }
     }
 }
